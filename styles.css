@@ -18,8 +18,11 @@ body {
 .screen {
     background-color:white;
     display: flex;
-    height: 100px;
+    height: 120px;
     margin-bottom: 20px;
+    font-size: 30px;
+    justify-content: right;
+    align-items: end;
 }
 
 .keyboard {
@@ -40,4 +43,5 @@ button {
     font-size: 30px;
     justify-content: center;
     align-items: center;
+    margin: 5px;
 }
