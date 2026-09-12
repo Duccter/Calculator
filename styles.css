@@ -1,0 +1,43 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    background-color: indianred;
+    width: 500px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.screen {
+    background-color:white;
+    display: flex;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.keyboard {
+    display: flex;
+    background-color: white;
+    flex: 1;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex: 1;
+}
+
+button {
+    display: flex;
+    flex: 1;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+}
