@@ -3,39 +3,61 @@ let btn = document.querySelector(".keyboard");
 btn.addEventListener("click", (event) => {
     let target = event.target;
 
-    if (target.id === "CE" && lastOperator !== "enter" && !isArithmeticOperator(lastInput)) {
-        secondNumber = secondNumber.substring(0, secondNumber.length - 1);
-        display.textContent = display.textContent.substring(0, secondNumber.length - 1);;
+    if (!(isArithmeticOperator(target.id) || isNumDot(target.id) || target.id == "AC" || target.id == "CE" || target.id == "enter")) return;
+
+    if (target.id === "AC") {
+        reset();
+        display.textContent = "";
         return;
     }
 
-    if (isArithmeticOperator(lastInput) && isArithmeticOperator(target.id)) return;
+    if (target.id === "CE") {
+        if (isArithmeticOperator(lastInput)) {
+            secondNumber = String(firstNumber);
+            firstNumber = 0;
+            currentOperator = "+";
+            display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+            
+        } else {
+            lastInput = secondNumber.at(-1);
+            secondNumber = secondNumber.substring(0, secondNumber.length - 1);
+            display.textContent = display.textContent.substring(0, display.textContent.length - 1);
 
-    else if  (lastInput === "enter" && target.id == "enter") return;
+        }
+        lastInput = display.textContent.at(-1);
+        return;
+    }
 
-    else if (lastOperator === "enter" && isNumDot(target.id)) reset(target);
+    if  (target.id === "enter" && lastInput === "enter") return;
+
+    if (lastInput === "enter" && isNumDot(target.id)) {
+        reset();
+        secondNumber = target.textContent;
+        display.textContent = secondNumber;
+    }
 
     else if (isNumDot(target.id)) {
         if (target.id === "decimal" && secondNumber.includes(".")) return;
 
-        numberDot = target.textContent
+        let numberDot = target.textContent;
 
         secondNumber += numberDot;
         display.textContent += numberDot;
 
     } else if (isArithmeticOperator(target.id)) {
+
+        if (isArithmeticOperator(lastInput)) return;
+
         firstNumber = operate(currentOperator, firstNumber, +secondNumber);
 
         display.textContent = firstNumber;
-
         currentOperator = target.textContent;
-
         display.textContent += currentOperator;
 
         secondNumber = "";
         lastOperator = target.id;
 
-    } else if (target.id == "enter") {
+    } else if (target.id == "enter" && !isArithmeticOperator(lastInput)) {
         secondNumber = String(operate(currentOperator, firstNumber, +secondNumber));
         firstNumber = 0;
         
@@ -73,14 +95,12 @@ function operate(operator, firstNum, secondNum) {
     return res;
 }
 
-function reset(target) {
+function reset() {
     firstNumber = 0;
-    secondNumber = target.textContent;
+    secondNumber = "";
     lastOperator = null;
     lastInput = null;
     currentOperator = "+";
-    
-    display.textContent = secondNumber;
 }
 
 function isNumDot(item) {
